@@ -1,0 +1,2 @@
+c:\Users\h162524\documents\visual studio 2013\Projects\Stone.WebApi\Stone.ClientApp\obj\Release\App.g.cs
+c:\Users\h162524\documents\visual studio 2013\Projects\Stone.WebApi\Stone.ClientApp\obj\Release\Stone.ClientApp_MarkupCompile.cache

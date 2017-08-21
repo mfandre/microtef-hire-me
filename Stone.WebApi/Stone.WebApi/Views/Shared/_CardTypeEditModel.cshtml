@@ -1,0 +1,22 @@
+﻿@model int
+
+<div id="cardTypess">
+    <select id='CardTypeId' name='CardTypeId'></select>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON("/Client/GetTypes", function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                if(@Model == val.Id)
+                    items.push("<option value='" + val.Id + "' SELECTED>" + val.Name + "</option>");
+                else
+                    items.push("<option value='" + val.Id + "'>" + val.Name + "</option>");
+            });
+
+            $("#CardTypeId").html(items.join(""));
+            
+        });
+    });
+</script>

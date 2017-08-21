@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardholderName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Number" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="ExpirationDate" Type="datetime" Nullable="false" />
+          <Property Name="IdCardBrand" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdCardType" Type="int" Nullable="false" />
+          <Property Name="HasPassword" Type="bit" Nullable="false" />
+          <Property Name="Limit" Type="decimal" Precision="30" Scale="5" />
+          <Property Name="Balance" Type="decimal" Precision="30" Scale="5" />
+          <Property Name="LimitUsed" Type="decimal" Precision="30" Scale="5" />
+          <Property Name="Blocked" Type="bit" Nullable="false" />
+          <Property Name="Attempts" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CardBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CardType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="30" Scale="5" Nullable="false" />
+          <Property Name="IdTrasactionType" Type="int" Nullable="false" />
+          <Property Name="IdCard" Type="int" Nullable="false" />
+          <Property Name="Number" Type="int" Nullable="false" />
+          <Property Name="TransactionDate" Type="datetime" Nullable="false" />
+          <Property Name="ClientCode" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TransactionReturn" Type="int" />
+        </EntityType>
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Card_CardBrand">
+          <End Role="CardBrand" Type="Self.CardBrand" Multiplicity="1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardBrand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="IdCardBrand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_CardType">
+          <End Role="CardType" Type="Self.CardType" Multiplicity="1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="IdCardType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="IdCard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransactionType">
+          <End Role="TransactionType" Type="Self.TransactionType" Multiplicity="1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="IdTrasactionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StoneModelStoreContainer">
+          <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CardBrand" EntityType="Self.CardBrand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CardType" EntityType="Self.CardType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransactionType" EntityType="Self.TransactionType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Card_CardBrand" Association="Self.FK_Card_CardBrand">
+            <End Role="CardBrand" EntitySet="CardBrand" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_CardType" Association="Self.FK_Card_CardType">
+            <End Role="CardType" EntitySet="CardType" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Card" Association="Self.FK_Transaction_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransactionType" Association="Self.FK_Transaction_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionType" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="StoneEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Card" EntityType="StoneModel.Card" />
+          <EntitySet Name="CardBrand" EntityType="StoneModel.CardBrand" />
+          <EntitySet Name="CardType" EntityType="StoneModel.CardType" />
+          <EntitySet Name="Transaction" EntityType="StoneModel.Transaction" />
+          <EntitySet Name="TransactionType" EntityType="StoneModel.TransactionType" />
+          <AssociationSet Name="FK_Card_CardBrand" Association="StoneModel.FK_Card_CardBrand">
+            <End Role="CardBrand" EntitySet="CardBrand" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_CardType" Association="StoneModel.FK_Card_CardType">
+            <End Role="CardType" EntitySet="CardType" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_Card" Association="StoneModel.FK_Transaction_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transaction_TransactionType" Association="StoneModel.FK_Transaction_TransactionType">
+            <End Role="TransactionType" EntitySet="TransactionType" />
+            <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardholderName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="ExpirationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IdCardBrand" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdCardType" Type="Int32" Nullable="false" />
+          <Property Name="HasPassword" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CardBrand" Relationship="StoneModel.FK_Card_CardBrand" FromRole="Card" ToRole="CardBrand" />
+          <NavigationProperty Name="CardType" Relationship="StoneModel.FK_Card_CardType" FromRole="Card" ToRole="CardType" />
+          <NavigationProperty Name="Transaction" Relationship="StoneModel.FK_Transaction_Card" FromRole="Card" ToRole="Transaction" />
+          <Property Name="Limit" Type="Decimal" Precision="30" Scale="5" />
+          <Property Name="Balance" Type="Decimal" Precision="30" Scale="5" />
+          <Property Name="LimitUsed" Type="Decimal" Precision="30" Scale="5" />
+          <Property Name="Blocked" Type="Boolean" Nullable="false" />
+          <Property Name="Attempts" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CardBrand">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Card" Relationship="StoneModel.FK_Card_CardBrand" FromRole="CardBrand" ToRole="Card" />
+        </EntityType>
+        <EntityType Name="CardType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Card" Relationship="StoneModel.FK_Card_CardType" FromRole="CardType" ToRole="Card" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="30" Scale="5" />
+          <Property Name="IdTransactionType" Type="Int32" Nullable="false" />
+          <Property Name="IdCard" Type="Int32" Nullable="false" />
+          <Property Name="Number" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Card" Relationship="StoneModel.FK_Transaction_Card" FromRole="Transaction" ToRole="Card" />
+          <NavigationProperty Name="TransactionType" Relationship="StoneModel.FK_Transaction_TransactionType" FromRole="Transaction" ToRole="TransactionType" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ClientCode" Type="Guid" Nullable="false" />
+          <Property Name="TransactionReturn" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TransactionType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Transaction" Relationship="StoneModel.FK_Transaction_TransactionType" FromRole="TransactionType" ToRole="Transaction" />
+        </EntityType>
+        <Association Name="FK_Card_CardBrand">
+          <End Type="StoneModel.CardBrand" Role="CardBrand" Multiplicity="1" />
+          <End Type="StoneModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardBrand">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="IdCardBrand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_CardType">
+          <End Type="StoneModel.CardType" Role="CardType" Multiplicity="1" />
+          <End Type="StoneModel.Card" Role="Card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CardType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card">
+              <PropertyRef Name="IdCardType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_Card">
+          <End Type="StoneModel.Card" Role="Card" Multiplicity="1" />
+          <End Type="StoneModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="IdCard" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transaction_TransactionType">
+          <End Type="StoneModel.TransactionType" Role="TransactionType" Multiplicity="1" />
+          <End Type="StoneModel.Transaction" Role="Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransactionType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="IdTransactionType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StoneModelStoreContainer" CdmEntityContainer="StoneEntities">
+          <EntitySetMapping Name="Card">
+            <EntityTypeMapping TypeName="StoneModel.Card">
+              <MappingFragment StoreEntitySet="Card">
+                <ScalarProperty Name="Attempts" ColumnName="Attempts" />
+                <ScalarProperty Name="Blocked" ColumnName="Blocked" />
+                <ScalarProperty Name="LimitUsed" ColumnName="LimitUsed" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="Limit" ColumnName="Limit" />
+                <ScalarProperty Name="HasPassword" ColumnName="HasPassword" />
+                <ScalarProperty Name="IdCardType" ColumnName="IdCardType" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdCardBrand" ColumnName="IdCardBrand" />
+                <ScalarProperty Name="ExpirationDate" ColumnName="ExpirationDate" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="CardholderName" ColumnName="CardholderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CardBrand">
+            <EntityTypeMapping TypeName="StoneModel.CardBrand">
+              <MappingFragment StoreEntitySet="CardBrand">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CardType">
+            <EntityTypeMapping TypeName="StoneModel.CardType">
+              <MappingFragment StoreEntitySet="CardType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transaction">
+            <EntityTypeMapping TypeName="StoneModel.Transaction">
+              <MappingFragment StoreEntitySet="Transaction">
+                <ScalarProperty Name="TransactionReturn" ColumnName="TransactionReturn" />
+                <ScalarProperty Name="ClientCode" ColumnName="ClientCode" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="IdCard" ColumnName="IdCard" />
+                <ScalarProperty Name="IdTransactionType" ColumnName="IdTrasactionType" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransactionType">
+            <EntityTypeMapping TypeName="StoneModel.TransactionType">
+              <MappingFragment StoreEntitySet="TransactionType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

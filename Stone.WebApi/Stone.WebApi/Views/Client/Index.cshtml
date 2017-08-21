@@ -1,0 +1,49 @@
+﻿@model List<Stone.BusinessEntities.CardEntity>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using GridMvc.Html
+
+<h2>Clientes</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <p><strong>Success:</strong> @TempData["Success"].ToString()</p>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        <p><strong>Success:</strong> @TempData["Error"].ToString()</p>
+    </div>
+}
+
+
+@Html.ActionLink("Novo", "Create", null, new  { @class="btn btn-default" } )
+
+@Html.Grid(Model).Columns(columns => {
+    columns.Add(c => c.CardholderName).Titled("Nome").Filterable(true);
+    columns.Add(c => c.Number).Titled("Número Cartão").Filterable(true);
+    columns.Add(c => c.CardType.Name).Titled("Tipo").Filterable(true);
+    columns.Add(c => c.CardBrand.Name).Titled("Bandeira").Filterable(true);
+    columns.Add(c => c.ExpirationDate).Titled("Data Validade").Filterable(true);
+    columns.Add(c => c.Blocked).Titled("Bloqueado?").Filterable(true);
+    columns.Add(c => c.Balance).Titled("Saldo").Filterable(true);
+    columns.Add(c => c.Limit).Titled("Limite").Filterable(true);
+    columns.Add(c => c.LimitUsed).Titled("Limite aprisonado").Filterable(true);
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(o => Html.ActionLink("Editar", "Edit", new { id = o.Id }));
+    
+    columns.Add()
+    .Encoded(false)
+    .Sanitized(false)
+    .SetWidth(30)
+    .RenderValueAs(o => Html.ActionLink("Remover", "Remove", new { id = o.Id }));
+}).WithPaging(10).Sortable(true)  

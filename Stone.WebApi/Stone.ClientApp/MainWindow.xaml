@@ -1,0 +1,54 @@
+﻿<Window x:Class="Stone.ClientApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:behav="clr-namespace:Stone.ClientApp.ComponentBehaviors;assembly=Stone.ClientApp"
+        Title="Zé das Couves" Height="350" Width="525" Icon="icon.png">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <TabControl IsSynchronizedWithCurrentItem="True" Margin="10,10,10,10" SelectionChanged="TabControl_SelectionChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Transações">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <StackPanel HorizontalAlignment="Left" Height="250" Margin="10,10,10,10" VerticalAlignment="Center" Width="468" Orientation="Vertical">
+                        <StackPanel Height="29" Margin="0,0,-0.2,0" Orientation="Horizontal">
+                            <Label Content="Número Cartão" Width="100"/>
+                            <TextBox Height="23" TextWrapping="Wrap" Text="" Width="170" Margin="174,0,174.8,0" x:Name="InputCardNumber"/>
+                        </StackPanel>
+                        <StackPanel Height="29" Margin="0,0,-0.2,0" Orientation="Horizontal">
+                            <Label Content="Valor" Width="100"/>
+                            <TextBox Height="23" TextWrapping="Wrap" Text="" Width="170" Margin="174,0,174.8,0" x:Name="InputAmount"/>
+                        </StackPanel>
+                        <StackPanel Height="29" Margin="0,0,-0.2,0" Orientation="Horizontal">
+                            <Label Content="Tipo Transação" Width="100"/>
+                            <ComboBox Width="170" Margin="174,3,174.8,3" x:Name="dropdownTransactionType" DisplayMemberPath="Name" SelectedValuePath="Id" IsSynchronizedWithCurrentItem="True" SelectionChanged="dropdownTransactionType_SelectionChanged">
+                                
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Height="29" Margin="0,0,-0.2,0" Orientation="Horizontal">
+                            <Label Content="Número Parcelas" Width="100"/>
+                            <TextBox Height="23" TextWrapping="Wrap" Text="" Width="170" Margin="174,0,174.8,0" x:Name="InputNumber">
+                                <i:Interaction.Behaviors>
+                                    <!--<behav:TextBoxInputBehavior InputMode="DigitInput" />-->
+                                </i:Interaction.Behaviors>
+                            </TextBox>
+                        </StackPanel>
+                        <StackPanel Height="29" Margin="0,0,-0.2,0" Orientation="Horizontal">
+                            <Button x:Name="confirmarBtn" Margin="0,3,4,3" Content="Confirmar" Click="confirmarBtn_Click"/>
+                            <Button x:Name="cancelarBtn" Margin="0,3,4,3" Content="Cancelar"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Listar Transações">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch" x:Name="transactionGrid"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Grid Visibility="Hidden" x:Name="waitCover">
+            <Rectangle Fill="White" Opacity="0.7"  >
+            </Rectangle>
+            <TextBlock  Name="textBlock2" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center">Aguarde
+            </TextBlock>
+        </Grid>
+    </Grid>
+</Window>

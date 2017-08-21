@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e150d3a2a51a44f882bca9e531dd2703" Name="Diagram1">
+        <EntityTypeShape EntityType="StoneModel.Card" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="StoneModel.CardBrand" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="StoneModel.CardType" Width="1.5" PointX="0.75" PointY="1.75" />
+        <EntityTypeShape EntityType="StoneModel.Transaction" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="StoneModel.TransactionType" Width="1.5" PointX="3" PointY="5.75" />
+        <AssociationConnector Association="StoneModel.FK_Card_CardBrand" />
+        <AssociationConnector Association="StoneModel.FK_Card_CardType" />
+        <AssociationConnector Association="StoneModel.FK_Transaction_Card" />
+        <AssociationConnector Association="StoneModel.FK_Transaction_TransactionType" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

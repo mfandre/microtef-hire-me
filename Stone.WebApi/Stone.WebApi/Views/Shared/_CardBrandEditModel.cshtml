@@ -1,0 +1,22 @@
+﻿@model int
+
+<div id="cardBrands">
+    <select id='CardBrandId' name='CardBrandId'></select>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON("/Client/GetBrands", function (data) {
+            var items = [];
+            $.each(data, function (key, val) {
+                if(@Model == val.Id)
+                    items.push("<option value='" + val.Id + "' SELECTED>" + val.Name + "</option>");
+                else
+                    items.push("<option value='" + val.Id + "'>" + val.Name + "</option>");
+            });
+
+            $("#CardBrandId").html(items.join(""));
+            
+        });
+    });
+</script>
